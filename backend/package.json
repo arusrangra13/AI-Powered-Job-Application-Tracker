@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
+    "test": "echo \"No backend tests configured yet\" && exit 0",
+    "lint": "echo \"No backend lint configured yet\" && exit 0",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:push": "prisma db push",

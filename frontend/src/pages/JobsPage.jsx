@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import api from '../api/axios'
 import toast from 'react-hot-toast'
 import { Briefcase, Plus, Search, Trash2, ExternalLink, X, MapPin, DollarSign, Link } from 'lucide-react'
@@ -64,14 +64,14 @@ export default function JobsPage() {
   const [showModal, setShowModal] = useState(false)
   const [editJob, setEditJob] = useState(null)
 
-  const load = () => {
+  const load = useCallback(() => {
     api.get(`/jobs?search=${search}`)
       .then(res => setJobs(res.data.jobs))
       .catch(() => toast.error('Failed to load jobs'))
       .finally(() => setLoading(false))
-  }
+  }, [search])
 
-  useEffect(() => { load() }, [search])
+  useEffect(() => { load() }, [load])
 
   const handleCreate = async (form) => {
     const res = await api.post('/jobs', form)

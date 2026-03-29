@@ -5,9 +5,8 @@ Uses spaCy and HuggingFace sentence-transformers for resume matching
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import List
 import logging
-import os
 
 from resume_matcher import ResumeMatcher
 
@@ -30,6 +29,7 @@ app.add_middleware(
 
 # Initialize matcher on startup
 matcher = None
+
 
 @app.on_event("startup")
 async def startup():

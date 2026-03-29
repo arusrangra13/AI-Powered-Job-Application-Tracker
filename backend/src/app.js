@@ -40,9 +40,11 @@ app.use('*', (req, res) => res.status(404).json({ error: 'Route not found' }));
 // Error handler
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`🚀 Backend server running on port ${PORT}`);
-  console.log(`📦 Environment: ${process.env.NODE_ENV}`);
+const HOST = process.env.HOST || '0.0.0.0';
+
+app.listen(PORT, HOST, () => {
+  console.log(`🚀 Backend server running on ${HOST}:${PORT}`);
+  console.log(`📦 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
 
 module.exports = app;

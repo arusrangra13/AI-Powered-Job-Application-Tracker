@@ -3,7 +3,6 @@ Resume Matcher using spaCy + HuggingFace sentence-transformers
 """
 from typing import List, Dict, Any
 from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
 import re
 import logging
 

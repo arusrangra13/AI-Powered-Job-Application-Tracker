@@ -3,14 +3,15 @@ import { Link } from 'react-router-dom'
 import { useAuthStore } from '../store/authStore'
 import api from '../api/axios'
 import { Briefcase, TrendingUp, MessageSquare, Award, XCircle, Bell, ArrowRight, Calendar } from 'lucide-react'
-import { format, isAfter, parseISO } from 'date-fns'
+import { format, parseISO } from 'date-fns'
 import toast from 'react-hot-toast'
 
 const STATUS_COLORS = {
   APPLIED: '#60a5fa', INTERVIEW: '#fbbf24', OFFER: '#4ade80', REJECTED: '#f87171'
 }
 
-function StatCard({ label, value, icon: Icon, color, sub }) {
+function StatCard({ label, value, icon, color, sub }) {
+  const Icon = icon
   return (
     <div className="stat-card glass card-hover" style={{ border: `1px solid ${color}25` }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>

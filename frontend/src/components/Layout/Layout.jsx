@@ -46,17 +46,20 @@ export default function Layout() {
 
         {/* Nav */}
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', flex: 1 }}>
-          {navItems.map(({ to, icon: Icon, label, end }) => (
-            <NavLink
-              key={to}
-              to={to}
-              end={end}
-              className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-            >
-              <Icon size={18} />
-              <span>{label}</span>
-            </NavLink>
-          ))}
+          {navItems.map(({ to, icon, label, end }) => {
+            const Icon = icon
+            return (
+              <NavLink
+                key={to}
+                to={to}
+                end={end}
+                className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+              >
+                <Icon size={18} />
+                <span>{label}</span>
+              </NavLink>
+            )
+          })}
         </nav>
 
         {/* User section */}
