@@ -6,6 +6,7 @@ import KanbanPage from './pages/KanbanPage'
 import ResumeAnalyzer from './pages/ResumeAnalyzer'
 import JobsPage from './pages/JobsPage'
 import RemindersPage from './pages/RemindersPage'
+import ProfilePage from './pages/ProfilePage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 
@@ -34,6 +35,7 @@ export default function App() {
         <Route path="jobs" element={<JobsPage />} />
         <Route path="resume" element={<ResumeAnalyzer />} />
         <Route path="reminders" element={<RemindersPage />} />
+        <Route path="profile" element={<ProfilePage />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

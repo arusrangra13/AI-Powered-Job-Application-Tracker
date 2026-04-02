@@ -11,6 +11,7 @@ const navItems = [
   { to: '/jobs', icon: Briefcase, label: 'Jobs' },
   { to: '/resume', icon: FileSearch, label: 'Resume AI' },
   { to: '/reminders', icon: Bell, label: 'Reminders' },
+  { to: '/profile', icon: User, label: 'Profile' },
 ]
 
 export default function Layout() {

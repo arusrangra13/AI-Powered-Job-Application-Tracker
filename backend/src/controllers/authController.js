@@ -70,4 +70,29 @@ const getMe = async (req, res) => {
   res.json({ user });
 };
 
-module.exports = { register, login, getMe };
+// PUT /api/auth/me
+const updateMe = async (req, res) => {
+  const { name, email, password } = req.body;
+  const updateData = {};
+
+  if (name) updateData.name = name;
+  if (email) updateData.email = email;
+  if (password) updateData.password = await bcrypt.hash(password, 12);
+
+  try {
+    const user = await prisma.user.update({
+      where: { id: req.userId },
+      data: updateData,
+      select: { id: true, name: true, email: true, createdAt: true },
+    });
+
+    res.json({ user });
+  } catch (err) {
+    if (err.code === 'P2002') {
+      return res.status(409).json({ error: 'Email already in use' });
+    }
+    throw err;
+  }
+};
+
+module.exports = { register, login, getMe, updateMe };
