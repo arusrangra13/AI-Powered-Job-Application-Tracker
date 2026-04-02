@@ -15,12 +15,12 @@ SKILLS_ONTOLOGY = {
         "ruby", "php", "swift", "kotlin", "scala", "r", "matlab", "perl",
     ],
     "frontend": [
-        "react", "vue", "angular", "next.js", "nuxt.js", "svelte", "html", "css",
-        "tailwind", "bootstrap", "sass", "webpack", "vite", "redux", "mobx",
+        "react", "reactjs", "vue", "angular", "angularjs", "next.js", "nextjs", "nuxt.js", "svelte", "html", "css",
+        "tailwind", "bootstrap", "sass", "scss", "webpack", "vite", "redux", "mobx",
     ],
     "backend": [
-        "node.js", "express", "django", "flask", "fastapi", "spring", "rails",
-        "laravel", "asp.net", "graphql", "rest api", "grpc", "microservices",
+        "node.js", "nodejs", "node", "express", "django", "flask", "fastapi", "spring", "rails",
+        "laravel", "asp.net", "graphql", "rest api", "restful api", "api development", "grpc", "microservices",
     ],
     "databases": [
         "postgresql", "mysql", "mongodb", "redis", "elasticsearch", "sqlite",
@@ -41,7 +41,35 @@ SKILLS_ONTOLOGY = {
     ],
 }
 
+SKILL_ALIASES = {
+    'reactjs': 'react',
+    'react.js': 'react',
+    'nodejs': 'node.js',
+    'node': 'node.js',
+    'nextjs': 'next.js',
+    'nuxtjs': 'nuxt.js',
+    'aspnet': 'asp.net',
+    'scikitlearn': 'scikit-learn',
+    'aws cloud': 'aws',
+    'github actions': 'github actions',
+    'ci/cd': 'ci/cd',
+    'rest api': 'rest api',
+    'restful api': 'rest api',
+    'tgz': 'tarball',
+}
+
 ALL_SKILLS = [skill for group in SKILLS_ONTOLOGY.values() for skill in group]
+
+def normalize_skill(skill: str) -> str:
+    s = skill.lower().strip()
+    s = re.sub(r"[.\-_/]+", " ", s).strip()
+    s = re.sub(r"\s+", " ", s)
+    if s in SKILL_ALIASES:
+        return SKILL_ALIASES[s]
+    # map any cleaned skill that matches alias key with spaces
+    if s.replace(' ', '') in SKILL_ALIASES:
+        return SKILL_ALIASES[s.replace(' ', '')]
+    return s
 
 
 class ResumeMatcher:
@@ -76,17 +104,44 @@ class ResumeMatcher:
             self.nlp = None
 
     def extract_skills(self, text: str) -> List[str]:
-        """Extract skills from text using keyword matching + spaCy NER"""
+        """Extract skills from text using keyword matching + spaCy NER."""
         text_lower = text.lower()
-        found_skills = []
+        normalized_text = re.sub(r'[^a-z0-9\s]', ' ', text_lower)
+        found_skills = set()
+
+        def append_skill(skill_name: str):
+            canonical = normalize_skill(skill_name)
+            found_skills.add(canonical)
 
         for skill in ALL_SKILLS:
-            # Use word boundary matching for accurate detection
-            pattern = r'\b' + re.escape(skill) + r'\b'
-            if re.search(pattern, text_lower):
-                found_skills.append(skill)
+            skill_lower = skill.lower()
+            # standard exact match with actual word boundary behavior
+            if re.search(r'(?<!\w)' + re.escape(skill_lower) + r'(?!\w)', text_lower):
+                append_skill(skill_lower)
+                continue
 
-        return list(set(found_skills))
+            # fallback: strip punctuation and check in normalized text
+            skill_simple = re.sub(r'[^a-z0-9\s]', ' ', skill_lower).strip()
+            if not skill_simple:
+                continue
+            if re.search(r'(?<!\w)' + re.escape(skill_simple) + r'(?!\w)', normalized_text):
+                append_skill(skill_lower)
+                continue
+
+        # spaCy entity and noun chunk based matching (if available)
+        if self.nlp:
+            try:
+                doc = self.nlp(text_lower)
+                tokens = [token.lemma_.lower() for token in doc if not token.is_stop and not token.is_punct]
+                reconstructed = ' '.join(tokens)
+                for skill in ALL_SKILLS:
+                    skill_lower = skill.lower()
+                    if re.search(r'(?<!\w)' + re.escape(skill_lower) + r'(?!\w)', reconstructed):
+                        append_skill(skill_lower)
+            except Exception as e:
+                logger.warning(f"spaCy matching fallback failed: {e}")
+
+        return sorted(found_skills)
 
     def _semantic_similarity(self, text1: str, text2: str) -> float:
         """Calculate semantic similarity between two texts"""
@@ -125,8 +180,8 @@ class ResumeMatcher:
         3. Identify matched/missing skills
         4. Generate improvement suggestions
         """
-        resume_skills = set(self.extract_skills(resume_text))
-        job_skills = set(self.extract_skills(job_description))
+        resume_skills = set(normalize_skill(s) for s in self.extract_skills(resume_text))
+        job_skills = set(normalize_skill(s) for s in self.extract_skills(job_description))
 
         matched_skills = sorted(resume_skills & job_skills)
         missing_skills = sorted(job_skills - resume_skills)
