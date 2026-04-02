@@ -34,6 +34,15 @@ app.use('/api/reminders', reminderRoutes);
 app.use('/api/analyze', analyzeRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 
+// API root helper
+app.get('/api', (req, res) => {
+  res.json({
+    service: 'JobTracker API',
+    status: 'ok',
+    note: 'Use /api/auth, /api/jobs, /api/applications, /api/reminders, /api/dashboard, /api/analyze',
+  })
+})
+
 // 404
 app.use('*', (req, res) => res.status(404).json({ error: 'Route not found' }));
 

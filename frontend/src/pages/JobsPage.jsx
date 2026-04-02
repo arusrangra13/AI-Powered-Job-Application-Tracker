@@ -22,8 +22,8 @@ function JobModal({ onClose, onSave, initial }) {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-box" onClick={e => e.stopPropagation()}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-          <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#e2e8f0' }}>{initial ? 'Edit Job' : 'Add New Job'}</h2>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#64748b' }}><X size={20} /></button>
+          <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-color)' }}>{initial ? 'Edit Job' : 'Add New Job'}</h2>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}><X size={20} /></button>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
           {[
@@ -103,11 +103,11 @@ export default function JobsPage() {
     <div className="fade-in">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem' }}>
         <div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#e2e8f0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <Briefcase size={28} style={{ color: '#6478f9' }} />
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--text-color)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <Briefcase size={28} style={{ color: 'var(--accent-strong)' }} />
             Jobs
           </h1>
-          <p style={{ color: '#64748b', fontSize: '0.875rem', marginTop: '0.25rem' }}>Manage your job listings</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', marginTop: '0.25rem' }}>Manage your job listings</p>
         </div>
         <button className="btn-primary" onClick={() => setShowModal(true)}>
           <Plus size={16} /> Add Job
@@ -116,30 +116,30 @@ export default function JobsPage() {
 
       {/* Search */}
       <div style={{ position: 'relative', marginBottom: '1.5rem', maxWidth: '400px' }}>
-        <Search size={16} style={{ position: 'absolute', left: '0.875rem', top: '50%', transform: 'translateY(-50%)', color: '#475569' }} />
+        <Search size={16} style={{ position: 'absolute', left: '0.875rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
         <input className="input-base" style={{ paddingLeft: '2.5rem' }} placeholder="Search jobs..."
           value={search} onChange={e => setSearch(e.target.value)} />
       </div>
 
       {/* Job Grid */}
       {jobs.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '4rem', color: '#475569' }}>
-          <Briefcase size={48} style={{ color: '#1e2236', marginBottom: '1rem' }} />
-          <div style={{ fontSize: '1rem', color: '#64748b' }}>No jobs yet. Add your first job!</div>
+        <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--text-muted)' }}>
+          <Briefcase size={48} style={{ color: 'var(--surface-border)', marginBottom: '1rem' }} />
+          <div style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>No jobs yet. Add your first job!</div>
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1rem' }}>
           {jobs.map(job => (
-            <div key={job.id} className="glass card-hover" style={{ borderRadius: '1rem', padding: '1.25rem', border: '1px solid rgba(100,120,249,0.1)' }}>
+            <div key={job.id} className="glass card-hover" style={{ borderRadius: '1rem', padding: '1.25rem', border: '1px solid rgba(148,163,184,0.15)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.875rem' }}>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontWeight: 700, fontSize: '0.9rem', color: '#e2e8f0', marginBottom: '0.2rem' }}>{job.title}</div>
+                  <div style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-color)', marginBottom: '0.2rem' }}>{job.title}</div>
                   <div style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: 500 }}>{job.company}</div>
                 </div>
                 <div style={{ display: 'flex', gap: '0.375rem', flexShrink: 0 }}>
                   {job.url && (
                     <a href={job.url} target="_blank" rel="noopener noreferrer"
-                      style={{ padding: '0.3rem', borderRadius: '0.375rem', color: '#6478f9', background: 'rgba(100,120,249,0.1)', display: 'flex' }}>
+                      style={{ padding: '0.3rem', borderRadius: '0.375rem', color: 'var(--accent-strong)', background: 'rgba(148,163,184,0.15)', display: 'flex' }}>
                       <ExternalLink size={13} />
                     </a>
                   )}
@@ -156,7 +156,7 @@ export default function JobsPage() {
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
                 {job.location && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', fontSize: '0.75rem', color: '#64748b' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                     <MapPin size={12} /> {job.location}
                   </div>
                 )}
@@ -168,7 +168,7 @@ export default function JobsPage() {
               </div>
 
               {job.description && (
-                <p style={{ fontSize: '0.75rem', color: '#475569', marginTop: '0.75rem', lineHeight: 1.5,
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.75rem', lineHeight: 1.5,
                   display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                   {job.description}
                 </p>

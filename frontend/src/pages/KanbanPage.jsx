@@ -20,17 +20,17 @@ function JobCard({ app, isDragging }) {
   return (
     <div className="glass card-hover" style={{
       borderRadius: '0.875rem', padding: '1rem',
-      border: '1px solid rgba(100,120,249,0.1)',
+      border: '1px solid rgba(148,163,184,0.15)',
       opacity: isDragging ? 0.5 : 1,
       cursor: 'grab',
       marginBottom: '0.625rem',
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontWeight: 600, fontSize: '0.875rem', color: '#e2e8f0', marginBottom: '0.2rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          <div style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text-color)', marginBottom: '0.2rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
             {app.job.title}
           </div>
-          <div style={{ fontSize: '0.75rem', color: '#64748b', marginBottom: '0.5rem' }}>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
             {app.job.company}{app.job.location ? ` • ${app.job.location}` : ''}
           </div>
         </div>
@@ -41,20 +41,20 @@ function JobCard({ app, isDragging }) {
           <div className="progress-bar">
             <div className="progress-fill" style={{ width: `${app.resumeAnalysis.compatibilityScore}%` }} />
           </div>
-          <div style={{ fontSize: '0.65rem', color: '#64748b', marginTop: '0.25rem' }}>
+          <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
             {app.resumeAnalysis.compatibilityScore}% match
           </div>
         </div>
       )}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-          <Calendar size={10} color="#475569" />
-          <span style={{ fontSize: '0.65rem', color: '#475569' }}>
+          <Calendar size={10} color="var(--text-muted)" />
+          <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>
             {format(parseISO(app.appliedDate), 'MMM d')}
           </span>
         </div>
         {app.job.url && (
-          <a href={app.job.url} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{ color: '#6478f9' }}>
+          <a href={app.job.url} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{ color: 'var(--accent-strong)' }}>
             <ExternalLink size={12} />
           </a>
         )}
@@ -81,9 +81,9 @@ function Column({ col, apps, onAdd }) {
           <span style={{ fontWeight: 700, fontSize: '0.8rem', color: col.color }}>{col.label}</span>
           <span style={{ background: col.accent, color: col.color, borderRadius: '9999px', padding: '0.1rem 0.5rem', fontSize: '0.7rem', fontWeight: 700 }}>{apps.length}</span>
         </div>
-        <button onClick={() => onAdd(col.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#475569', padding: '0.25rem', borderRadius: '0.375rem', transition: 'color 0.2s' }}
+        <button onClick={() => onAdd(col.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: '0.25rem', borderRadius: '0.375rem', transition: 'color 0.2s' }}
           onMouseEnter={e => e.target.style.color = col.color}
-          onMouseLeave={e => e.target.style.color = '#475569'}>
+          onMouseLeave={e => e.target.style.color = 'var(--text-muted)'}>
           <Plus size={16} />
         </button>
       </div>
@@ -188,11 +188,11 @@ export default function KanbanPage() {
     <div className="fade-in">
       <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
         <div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#e2e8f0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <Kanban size={28} style={{ color: '#6478f9' }} />
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--text-color)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <Kanban size={28} style={{ color: 'var(--accent-strong)' }} />
             Kanban Board
           </h1>
-          <p style={{ color: '#64748b', fontSize: '0.875rem', marginTop: '0.25rem' }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', marginTop: '0.25rem' }}>
             Drag and drop applications to update their status
           </p>
         </div>
@@ -217,8 +217,8 @@ export default function KanbanPage() {
         <div className="modal-overlay" onClick={() => setShowAddModal(false)}>
           <div className="modal-box" onClick={e => e.stopPropagation()}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-              <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#e2e8f0' }}>Add Application</h2>
-              <button onClick={() => setShowAddModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#64748b' }}>
+              <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-color)' }}>Add Application</h2>
+              <button onClick={() => setShowAddModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
                 <X size={20} />
               </button>
             </div>

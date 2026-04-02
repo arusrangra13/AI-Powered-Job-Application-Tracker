@@ -8,7 +8,7 @@ const TYPE_COLORS = {
   DEADLINE:  { color: '#f87171', bg: 'rgba(239,68,68,0.1)',   label: 'Deadline' },
   INTERVIEW: { color: '#fbbf24', bg: 'rgba(245,158,11,0.1)', label: 'Interview' },
   FOLLOWUP:  { color: '#60a5fa', bg: 'rgba(59,130,246,0.1)', label: 'Follow Up' },
-  OTHER:     { color: '#a78bfa', bg: 'rgba(167,139,250,0.1)', label: 'Other' },
+  OTHER:     { color: 'var(--accent-color)', bg: 'rgba(167,139,250,0.1)', label: 'Other' },
 }
 
 function getDueBadge(dateStr) {
@@ -77,11 +77,11 @@ export default function RemindersPage() {
     <div className="fade-in">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem' }}>
         <div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#e2e8f0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <Bell size={28} style={{ color: '#6478f9' }} />
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--text-color)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <Bell size={28} style={{ color: 'var(--accent-strong)' }} />
             Reminders
           </h1>
-          <p style={{ color: '#64748b', fontSize: '0.875rem', marginTop: '0.25rem' }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', marginTop: '0.25rem' }}>
             Track application deadlines and interview schedules
           </p>
         </div>
@@ -97,8 +97,8 @@ export default function RemindersPage() {
             style={{
               padding: '0.375rem 1rem', borderRadius: '9999px', fontSize: '0.8rem', fontWeight: 600,
               border: 'none', cursor: 'pointer', transition: 'all 0.2s',
-              background: filter === val ? 'linear-gradient(135deg, #6478f9, #a78bfa)' : 'rgba(37,41,67,0.7)',
-              color: filter === val ? 'white' : '#64748b',
+              background: filter === val ? 'linear-gradient(135deg, var(--accent-strong), var(--accent-color))' : 'rgba(37,41,67,0.7)',
+              color: filter === val ? 'white' : 'var(--text-muted)',
             }}>
             {label}
           </button>
@@ -107,9 +107,9 @@ export default function RemindersPage() {
 
       {/* Reminders List */}
       {filtered.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '4rem', color: '#475569' }}>
-          <Bell size={48} style={{ color: '#1e2236', marginBottom: '1rem' }} />
-          <div style={{ fontSize: '1rem', color: '#64748b' }}>No {filter === 'all' ? '' : filter} reminders</div>
+        <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--text-muted)' }}>
+          <Bell size={48} style={{ color: 'var(--surface-border)', marginBottom: '1rem' }} />
+          <div style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>No {filter === 'all' ? '' : filter} reminders</div>
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
@@ -122,7 +122,7 @@ export default function RemindersPage() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <div style={{ flex: 1 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.375rem', flexWrap: 'wrap' }}>
-                      <span style={{ fontWeight: 700, fontSize: '0.9rem', color: r.completed ? '#475569' : '#e2e8f0', textDecoration: r.completed ? 'line-through' : 'none' }}>
+                      <span style={{ fontWeight: 700, fontSize: '0.9rem', color: r.completed ? 'var(--text-muted)' : 'var(--text-color)', textDecoration: r.completed ? 'line-through' : 'none' }}>
                         {r.title}
                       </span>
                       <span style={{ padding: '0.15rem 0.5rem', borderRadius: '9999px', fontSize: '0.65rem', fontWeight: 600, background: typeStyle.bg, color: typeStyle.color }}>
@@ -134,15 +134,15 @@ export default function RemindersPage() {
                         </span>
                       )}
                     </div>
-                    {r.description && <div style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: '0.375rem' }}>{r.description}</div>}
+                    {r.description && <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.375rem' }}>{r.description}</div>}
                     {r.application?.job && (
-                      <div style={{ fontSize: '0.75rem', color: '#475569' }}>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                         📎 {r.application.job.title} at {r.application.job.company}
                       </div>
                     )}
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0, marginLeft: '1rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.75rem', color: '#64748b' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                       <Calendar size={12} />
                       {format(parseISO(r.dueDate), 'MMM d, yyyy')}
                     </div>
@@ -170,8 +170,8 @@ export default function RemindersPage() {
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal-box" onClick={e => e.stopPropagation()}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-              <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#e2e8f0' }}>New Reminder</h2>
-              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#64748b' }}><X size={20} /></button>
+              <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-color)' }}>New Reminder</h2>
+              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}><X size={20} /></button>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
               <div>

@@ -22,26 +22,26 @@ export default function RegisterPage() {
   return (
     <div style={{
       minHeight: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: 'linear-gradient(-45deg, #090b14, #0f1120, #161929, #1a1c2e)',
-      backgroundSize: '400% 400%',
-      animation: 'gradient-shift 15s ease infinite',
+      background: 'linear-gradient(135deg, #f8fafc, #f1f5f9, #e2e8f0)',
+      backgroundSize: '200% 200%',
+      animation: 'gradient-soft 12s ease infinite',
       padding: '1rem',
     }}>
-      <div style={{ position: 'fixed', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(100,120,249,0.08) 0%, transparent 70%)', top: '-100px', left: '-100px', pointerEvents: 'none' }} />
+      <div style={{ position: 'fixed', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(148,163,184,0.25) 0%, transparent 70%)', top: '-100px', left: '-100px', pointerEvents: 'none' }} />
 
       <div className="glass" style={{ width: '100%', maxWidth: '420px', borderRadius: '1.5rem', padding: '2.5rem', border: '1px solid rgba(100,120,249,0.15)' }}>
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <div style={{
             width: '56px', height: '56px', borderRadius: '16px',
-            background: 'linear-gradient(135deg, #6478f9, #a78bfa)',
+            background: 'linear-gradient(135deg, var(--accent-strong), var(--accent-color))',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             margin: '0 auto 1rem',
-            boxShadow: '0 0 40px rgba(100,120,249,0.4)',
+            boxShadow: '0 0 40px rgba(148,163,184,0.22)',
           }}>
             <Sparkles size={26} color="white" />
           </div>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#e2e8f0' }}>Get started</h1>
-          <p style={{ color: '#64748b', fontSize: '0.875rem', marginTop: '0.25rem' }}>Create your AI job tracker account</p>
+          <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-color)' }}>Get started</h1>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', marginTop: '0.25rem' }}>Create your AI job tracker account</p>
         </div>
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -62,7 +62,7 @@ export default function RegisterPage() {
                 placeholder="Min 8 characters" value={form.password}
                 onChange={e => set('password', e.target.value)} required style={{ paddingRight: '2.5rem' }} />
               <button type="button" onClick={() => setShowPass(v => !v)}
-                style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#475569' }}>
+                style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
                 {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
             </div>
@@ -86,9 +86,9 @@ export default function RegisterPage() {
           </button>
         </form>
 
-        <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.875rem', color: '#64748b' }}>
+        <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.875rem', color: 'var(--text-muted)' }}>
           Already have an account?{' '}
-          <Link to="/login" style={{ color: '#6478f9', fontWeight: 600, textDecoration: 'none' }}>Sign in →</Link>
+          <Link to="/login" style={{ color: 'var(--accent-strong)', fontWeight: 600, textDecoration: 'none' }}>Sign in →</Link>
         </div>
       </div>
     </div>
