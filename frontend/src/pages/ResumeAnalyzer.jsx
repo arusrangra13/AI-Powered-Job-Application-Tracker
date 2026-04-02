@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import api from '../api/axios'
 import toast from 'react-hot-toast'
 import { FileSearch, Sparkles, CheckCircle, XCircle, Lightbulb, Upload, BarChart2 } from 'lucide-react'
 
 export default function ResumeAnalyzer() {
+  const fileInputRef = useRef(null)
   const [resumeText, setResumeText] = useState('')
   const [jobDescription, setJobDescription] = useState('')
   const [result, setResult] = useState(null)
@@ -25,6 +26,39 @@ export default function ResumeAnalyzer() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    if (!['text/plain', 'application/pdf'].includes(file.type) && !file.name.endsWith('.txt')) {
+      toast.error('Unsupported file type. Please upload TXT or PDF.')
+      return
+    }
+
+    const reader = new FileReader()
+    reader.onload = () => {
+      let text = ''
+      if (file.type === 'application/pdf' || file.name.endsWith('.pdf')) {
+        // For PDF extraction we only use simple text fallback, as advanced PDF parsing requires a separate library.
+        const content = reader.result
+        const extracted = String(content).replace(/\s+/g, ' ').trim()
+        text = extracted || ''
+        toast('PDF detected; basic text is loaded for analysis', { icon: '📄' })
+      } else {
+        text = String(reader.result || '')
+      }
+
+      setResumeText(text)
+      toast.success(`Loaded resume from ${file.name}`)
+      if (fileInputRef.current) fileInputRef.current.value = ''
+    }
+    reader.onerror = () => {
+      toast.error('Failed to read file. Please try again.')
+    }
+
+    reader.readAsText(file)
   }
 
   const score = result?.score || 0
@@ -50,9 +84,16 @@ export default function ResumeAnalyzer() {
           <label style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-color)', display: 'flex', alignItems: 'center', gap: '0.375rem', marginBottom: '0.5rem' }}>
             <Upload size={14} color="var(--accent-strong)" /> Your Resume
           </label>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".txt,application/text,application/pdf"
+            onChange={handleFileUpload}
+            style={{ display: 'block', marginBottom: '0.75rem', padding: '0.5rem', borderRadius: '0.5rem', border: '1px solid var(--surface-border)', width: '100%', cursor: 'pointer' }}
+          />
           <textarea
             className="input-base"
-            style={{ height: '320px', resize: 'vertical', lineHeight: 1.6 }}
+            style={{ height: '260px', resize: 'vertical', lineHeight: 1.6 }}
             placeholder="Paste your resume content here...&#10;&#10;Include your skills, experience, education, and any relevant projects."
             value={resumeText}
             onChange={e => setResumeText(e.target.value)}
